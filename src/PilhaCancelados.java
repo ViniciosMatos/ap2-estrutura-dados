@@ -7,12 +7,15 @@ public class PilhaCancelados<T> {
         this.tamanho = 0;
     }
 
-    public void adicionar(T pedido){
-        Pedido<T> novo = new Pedido<>(pedido);
-        if (tamanho > 0) {
-            novo.proximoPedido = ultimoPedido;
+    public void adicionar(Pedido<T> pedido){
+        if (tamanho == 0){
+            pedido.proximoPedido = null;
+            ultimoPedido = pedido;
+            tamanho++;
+            return;
         }
-        ultimoPedido = novo;
+        pedido.proximoPedido = ultimoPedido;
+        ultimoPedido = pedido;
         tamanho++;
     }
 
@@ -30,5 +33,16 @@ public class PilhaCancelados<T> {
         }
 
         return null;
+    }
+
+    public void imprimirCancelados(){
+
+        if (tamanho == 0) return;
+
+        Pedido<T> atual = ultimoPedido;
+        while (atual != null){
+            IO.print(atual.pedido + " - ");
+            atual = atual.proximoPedido;
+        }
     }
 }

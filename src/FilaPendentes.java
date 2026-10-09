@@ -28,6 +28,16 @@ public class FilaPendentes<T> {
         tamanho--;
     }
 
+    public Pedido<T> cancelar(){
+        if (tamanho == 0) return null;
+
+        Pedido<T> pedidoCancelado = primeiroPedido;
+        primeiroPedido = primeiroPedido.proximoPedido;
+
+        tamanho--;
+        return pedidoCancelado;
+    }
+
     public void imprimirPendentes(){
         if (tamanho == 0) return;
 
@@ -36,5 +46,6 @@ public class FilaPendentes<T> {
             IO.print(atual.pedido + " - ");
             atual = atual.proximoPedido;
         }
+        IO.println();
     }
 }
