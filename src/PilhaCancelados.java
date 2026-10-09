@@ -28,5 +28,7 @@ public class PilhaCancelados<T> {
             }
             atual = atual.proximoPedido;
         }
+
+        return null;
     }
 }

@@ -18,9 +18,14 @@ public class FilaPendentes<T> {
             ultimoPedido.proximoPedido = novo;
             ultimoPedido = novo;
         }
-
-
         tamanho++;
+    }
+
+    public void atender(){
+        if (tamanho == 0) return;
+
+        primeiroPedido = primeiroPedido.proximoPedido;
+        tamanho--;
     }
 
     public void imprimirPendentes(){

@@ -6,5 +6,6 @@ void main() {
     teste.adicionar("teste3");
     teste.adicionar("teste4");
 
+    teste.atender();
     teste.imprimirPendentes();
 }
