@@ -27,25 +27,24 @@ public class MusicasMain {
                 case 1:
                     playlist.adicionar();
                     break;
-
                 case 2:
-
+                    playlist.avancarMusica();
                     break;
                 case 3:
-
+                    playlist.voltarMusica();
                     break;
                 case 4:
-
+                    playlist.exibirMusica();
                     break;
                 case 5:
-                    String titulo = IO.readln("->Digite o nome da música que deseja remover: ");
+                    String titulo = IO.readln("-> Escreva o nome da música que deseja remover: ");
                     playlist.remover(titulo);
                     break;
                 case 6:
                     playlist.listarMusicas();
                     break;
                 case 7:
-
+//                    playlist.ordenarMusicas();
                     break;
                 case 0:
                     menu = false;

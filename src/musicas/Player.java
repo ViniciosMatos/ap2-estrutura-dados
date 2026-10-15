@@ -13,10 +13,6 @@ public class Player {
         this.tamanho = 0;
     }
 
-    public void avancarMusica() {
-
-    }
-
     public void adicionar() {
         int opcao = Integer.parseInt(IO.readln("1- Adicionar no Inicio\n" +
                 "2- Adicionar no Meio\n" +
@@ -44,12 +40,28 @@ public class Player {
         }
     }
 
-    public void voltarMusica() {
+    public void avancarMusica() {
+        if (musicaAtual.proxima == null) {
+            IO.println("Fim da playlist!");
+            return;
+        }
+        IO.println("Avançando...");
+        musicaAtual = musicaAtual.proxima;
+    }
 
+    public void voltarMusica() {
+        if (musicaAtual.anterior == null) return;
+
+        IO.println("Voltando...");
+        musicaAtual = musicaAtual.anterior;
     }
 
     public void exibirMusica() {
-
+        if (tamanho == 0) {
+            IO.println("Não há músicas tocando no momento");
+            return;
+        }
+        IO.println(musicaAtual.titulo + " | " + musicaAtual.duracao + " | " + musicaAtual.album + " | " + musicaAtual.artista);
     }
 
     public void adicionarNoInicio(String titulo, String artista, String album, int duracao) {
@@ -90,8 +102,8 @@ public class Player {
     public void remover(String titulo) {
         Musica atual = primeiraMusica;
         while (atual != null) {
-            if (atual.titulo.equals(titulo)){
-                if (atual == primeiraMusica){
+            if (atual.titulo.equals(titulo)) {
+                if (atual == primeiraMusica) {
                     primeiraMusica = atual.proxima;
                     if (primeiraMusica != null) primeiraMusica.anterior = null;
 
@@ -99,7 +111,7 @@ public class Player {
                     ultimaMusica = atual.anterior;
                     if (ultimaMusica != null) ultimaMusica.proxima = null;
 
-                } else{
+                } else {
                     atual.anterior.proxima = atual.proxima;
                     atual.proxima.anterior = atual.anterior;
                 }
@@ -109,21 +121,20 @@ public class Player {
             }
             atual = atual.proxima;
         }
+    }
 
+    public void listarMusicas() {
+        IO.println();
+        IO.println("-----Playlist-----");
+        if (tamanho == 0) {
+            IO.println("Não há músicas na playlist");
+            return;
         }
 
-        public void listarMusicas () {
-            IO.println();
-            IO.println("-----Playlist-----");
-            if (tamanho == 0) {
-                IO.println("Não há músicas na playlist");
-                return;
-            }
-
-            Musica atual = primeiraMusica;
-            while (atual != null) {
-                IO.println(atual.titulo + " | " + atual.artista);
-                atual = atual.proxima;
-            }
+        Musica atual = primeiraMusica;
+        while (atual != null) {
+            IO.println(musicaAtual.titulo + " | " + musicaAtual.duracao + " | " + musicaAtual.album + " | " + musicaAtual.artista);
+            atual = atual.proxima;
         }
     }
+}
