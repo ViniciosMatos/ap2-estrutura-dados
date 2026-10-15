@@ -38,7 +38,8 @@ public class MusicasMain {
 
                     break;
                 case 5:
-
+                    String titulo = IO.readln("->Digite o nome da música que deseja remover: ");
+                    playlist.remover(titulo);
                     break;
                 case 6:
                     playlist.listarMusicas();

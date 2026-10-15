@@ -83,27 +83,47 @@ public class Player {
     }
 
 
-
     public void adicionarNoMeio(String titulo, String artista, String album, int duracao) {
 
     }
 
-    public void remover() {
-
-    }
-
-    public void listarMusicas() {
-        IO.println();
-        IO.println("-----Playlist-----");
-        if (tamanho == 0){
-            IO.println("Não há músicas na playlist");
-            return;
-        }
-
+    public void remover(String titulo) {
         Musica atual = primeiraMusica;
-        while (atual != null){
-            IO.println(atual.titulo + " | " + atual.artista);
+        while (atual != null) {
+            if (atual.titulo.equals(titulo)){
+                if (atual == primeiraMusica){
+                    primeiraMusica = atual.proxima;
+                    if (primeiraMusica != null) primeiraMusica.anterior = null;
+
+                } else if (atual == ultimaMusica) {
+                    ultimaMusica = atual.anterior;
+                    if (ultimaMusica != null) ultimaMusica.proxima = null;
+
+                } else{
+                    atual.anterior.proxima = atual.proxima;
+                    atual.proxima.anterior = atual.anterior;
+                }
+                tamanho--;
+                IO.println("Música removida da playlist!");
+                return;
+            }
             atual = atual.proxima;
         }
+
+        }
+
+        public void listarMusicas () {
+            IO.println();
+            IO.println("-----Playlist-----");
+            if (tamanho == 0) {
+                IO.println("Não há músicas na playlist");
+                return;
+            }
+
+            Musica atual = primeiraMusica;
+            while (atual != null) {
+                IO.println(atual.titulo + " | " + atual.artista);
+                atual = atual.proxima;
+            }
+        }
     }
-}
