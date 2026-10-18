@@ -48,6 +48,7 @@ public class MusicasMain {
                     break;
                 case 0:
                     menu = false;
+                    break;
                 default:
                     IO.println("Digite um opção valida");
                     break;
