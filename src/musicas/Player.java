@@ -109,7 +109,6 @@ public class Player {
         IO.println("Música adiocionada no final!");
     }
 
-
     public void adicionarNoMeio(String titulo, String artista, String album, int duracao) {
         if (tamanho == 0) {
             IO.println("A playlist está vazia. A música será adicionada no início.");
@@ -127,11 +126,9 @@ public class Player {
 
         if (posicao <= 1) {
             adicionarNoInicio(titulo, artista, album, duracao);
-        }
-        else if (posicao > tamanho) {
+        } else if (posicao > tamanho) {
             adicionarNoFim(titulo, artista, album, duracao);
-        }
-        else {
+        } else {
             Musica novaMusica = new Musica(titulo, artista, album, duracao);
             Musica atual = primeiraMusica;
 
@@ -150,7 +147,27 @@ public class Player {
         }
     }
 
-    public void remover(String titulo) {
+    public void remover() {
+        int opcao = Integer.parseInt(IO.readln("1- Remover pelo nome\n" +
+                "2- Remver pela posição\n" +
+                "-> "));
+
+        switch (opcao) {
+            case 1:
+                String titulo = IO.readln("Escreva o nome da música que deseja remover: ");
+                removerPorTitulo(titulo);
+                break;
+            case 2:
+                int posicao = Integer.parseInt(IO.readln("Digite a posição de quer remover: "));
+                removerPorPosicao(posicao);
+                break;
+            default:
+                IO.println("Opção inválida");
+                break;
+        }
+    }
+
+    public void removerPorTitulo(String titulo) {
         Musica atual = primeiraMusica;
         while (atual != null) {
             if (atual.titulo.equals(titulo)) {
@@ -186,6 +203,48 @@ public class Player {
         IO.println("Musica não encontrada");
     }
 
+    public void removerPorPosicao(int posicao) {
+        if (tamanho == 0) {
+            IO.println("A playlist está vazia. Não há nada para remover.");
+            return;
+        }
+
+        if (posicao < 1 || posicao > tamanho) {
+            IO.println("ERRO: Posição inválida!");
+            return;
+        }
+
+        Musica atual = primeiraMusica;
+
+        for (int i = 1; i < posicao; i++) {
+            atual = atual.proxima;
+        }
+
+        if (atual == musicaAtual) {
+            if (atual.proxima != null) {
+                musicaAtual = atual.proxima;
+            } else if (atual.anterior != null) {
+                musicaAtual = atual.anterior;
+            } else {
+                musicaAtual = null;
+            }
+        }
+
+        if (atual == primeiraMusica) {
+            primeiraMusica = atual.proxima;
+            if (primeiraMusica != null) primeiraMusica.anterior = null;
+        } else if (atual == ultimaMusica) {
+            ultimaMusica = atual.anterior;
+            if (ultimaMusica != null) ultimaMusica.proxima = null;
+        } else {
+            atual.anterior.proxima = atual.proxima;
+            atual.proxima.anterior = atual.anterior;
+        }
+
+        tamanho--;
+        IO.println("Música na posição " + posicao + " removida da playlist!");
+    }
+
     public void listarMusicas() {
         IO.println();
         IO.println("-----Playlist-----");
@@ -199,5 +258,50 @@ public class Player {
             IO.println(atual.titulo + " | " + atual.duracao + " | " + atual.album + " | " + atual.artista);
             atual = atual.proxima;
         }
+    }
+
+    public void ordenarMusicas(int criterio) {
+        if (tamanho <= 1) {
+            IO.println("Não há músicas suficientes para ordenar.");
+            return;
+        }
+
+        boolean houveTroca = true;
+
+        while (houveTroca) {
+            houveTroca = false;
+            Musica atual = primeiraMusica;
+
+            while (atual.proxima != null) {
+                boolean precisaTrocar = false;
+
+                if (criterio == 1) {
+                    precisaTrocar = atual.titulo.compareToIgnoreCase(atual.proxima.titulo) > 0;
+                } else if (criterio == 2) {
+                    precisaTrocar = atual.artista.compareToIgnoreCase(atual.proxima.artista) > 0;
+                }
+
+                if (precisaTrocar) {
+                    String tempTitulo = atual.titulo;
+                    String tempArtista = atual.artista;
+                    String tempAlbum = atual.album;
+                    int tempDuracao = atual.duracao;
+
+                    atual.titulo = atual.proxima.titulo;
+                    atual.artista = atual.proxima.artista;
+                    atual.album = atual.proxima.album;
+                    atual.duracao = atual.proxima.duracao;
+
+                    atual.proxima.titulo = tempTitulo;
+                    atual.proxima.artista = tempArtista;
+                    atual.proxima.album = tempAlbum;
+                    atual.proxima.duracao = tempDuracao;
+
+                    houveTroca = true;
+                }
+                atual = atual.proxima;
+            }
+        }
+        IO.println("Playlist ordenada com sucesso!");
     }
 }

@@ -37,14 +37,25 @@ public class MusicasMain {
                     playlist.exibirMusica();
                     break;
                 case 5:
-                    String titulo = IO.readln("-> Escreva o nome da música que deseja remover: ");
-                    playlist.remover(titulo);
+                    playlist.remover();
                     break;
                 case 6:
                     playlist.listarMusicas();
                     break;
                 case 7:
-//                    playlist.ordenarMusicas();
+                    int criterio = 0;
+                    try {
+                        criterio = Integer.parseInt(IO.readln("1- Ordenar por Título\n2- Ordenar por Artista\n-> Escolha uma opção: "));
+                    } catch (NumberFormatException e) {
+                        IO.println("ERRO: A entrada não pôde ser convertida para número inteiro");
+                        break;
+                    }
+
+                    if (criterio == 1 || criterio == 2) {
+                        playlist.ordenarMusicas(criterio);
+                    } else {
+                        IO.println("Opção inválida. Escolha 1 ou 2.");
+                    }
                     break;
                 case 0:
                     menu = false;
